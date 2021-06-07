@@ -13,54 +13,8 @@ class Index extends Base
     public function indexPage()
     {
         $data = db('now_data')->where('id', 1)->find();
-
-        // 生成从 8点 到 22点的时间数组
-        $dateLine = array_map(function($vo){
-            if($vo < 10){
-                return '0' . $vo;
-            }else{
-                return $vo;
-            }
-        }, range(8, 22));
-
-        // 初始化数据
-        $line = [];
-        foreach($dateLine as $key=>$vo){
-            $line[$vo] = [
-                'is_talking' => 0,
-                'in_queue' => 0,
-                'success_in' => 0,
-                'total_in' => 0
-            ];
-        }
-
-        $dbData = db('service_data')->where('add_date', date('Y-m-d'))->group('add_hour')->select();
-
-        foreach($line as $key=>$vo){
-            foreach($dbData as $k=>$v){
-                if($v['add_hour'] == $key){
-                    $line[$key]['is_talking'] = $v['is_talking'];
-                    $line[$key]['in_queue'] = $v['in_queue'];
-                    $line[$key]['success_in'] = $v['success_in'];
-                    $line[$key]['total_in'] = $v['total_in'];
-
-                    unset($dbData[$k]);
-                    continue;
-                }
-            }
-        }
-
-        $showData = [];
-        foreach($line as $key=>$vo){
-            $showData['is_talking'][] = $vo['is_talking'];
-            $showData['in_queue'][] = $vo['in_queue'];
-            $showData['success_in'][] = $vo['success_in'];
-            $showData['total_in'][] = $vo['total_in'];
-        }
-
         $this->assign([
-            'data' => $data,
-            'show_data' => json_encode($showData)
+            'data' => $data
         ]);
 
         return $this->fetch('index');

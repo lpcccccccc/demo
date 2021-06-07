@@ -4,7 +4,7 @@
  * Date: 2017/10/31 12:47
  * Email: 1902822973@qq.com
  */
-namespace app\admin\controller;
+namespace app\index\controller;
 
 class System extends Base
 {

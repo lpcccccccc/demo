@@ -4,7 +4,7 @@
  * Date: 2017/10/24 10:46
  * Email: 1902822973@qq.com
  */
-namespace app\admin\controller;
+namespace app\index\controller;
 
 use think\Controller;
 
