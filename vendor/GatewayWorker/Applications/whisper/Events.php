@@ -40,7 +40,7 @@ class Events
     public static function onWorkerStart($worker)
     {
         if (empty(self::$db)) {
-            self::$db = new \Workerman\MySQL\Connection('127.0.0.1', '3306', 'root', 'root', 'whisper');
+            self::$db = new \Workerman\MySQL\Connection('127.0.0.1', '3306', 'root', 'root', 'kefu');
         }
 
         if (empty(self::$global)) {
