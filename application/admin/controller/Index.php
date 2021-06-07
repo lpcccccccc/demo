@@ -12,7 +12,22 @@ class Index extends Base
     // 后台默认首页
     public function indexPage()
     {
-        $data = db('now_data')->where('id', 1)->find();
+        //查找总注册会员数
+        $data['user_count'] = db('user')->count('id');
+
+        //查找今日注册会员数
+        $today_time = date('Y-m-d 00:00:00',time());
+
+        $data['user_today'] = db('user')
+            ->where('created_at','>=',$today_time)
+            ->count('id');
+
+        //总收入状况
+        $data['money_count'] = db('order')->sum('price');
+
+        //售出产品总数
+        $data['goods_count'] = db('order')->where('goods_id','<>','')->count('id');
+
         $this->assign([
             'data' => $data
         ]);

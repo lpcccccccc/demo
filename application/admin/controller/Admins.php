@@ -1,10 +1,7 @@
 <?php
-/**
- * User: nickbai
- * Date: 2017/10/23 13:33
- * Email: 1902822973@qq.com
- */
+
 namespace app\admin\controller;
+
 
 class Admins extends Base
 {
