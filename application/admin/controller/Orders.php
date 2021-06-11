@@ -8,14 +8,18 @@ class Orders extends Base
     // 订单列表
     public function index()
     {
-
         if(request()->isAjax()){
             $request =request()->param();
-            echo "<pre>";
-            print_r($request);
-            echo "<pre>";
-            exit();
+            $order_num = $request['searchText'];
             $result = db('order')->order('id', 'desc')->select();
+            $return['total'] = db('order')->count();  //总数据
+
+            if(!empty($order_num))
+            {
+                $result = db('order')->whereLike('order_num','%'.$order_num.'%')->order('id', 'desc')->select();
+                $return['total'] = db('order')->whereLike('order_num','%'.$order_num.'%')->count();  //总数据
+            }
+
             foreach($result as $key=>$vo){
 
                 // 优化显示状态
@@ -29,12 +33,28 @@ class Orders extends Base
                 $user_name = db('user')->field('user_name')->where('id',$vo['user_id'])->find();
                 $result[$key]['user_name'] = $user_name['user_name'];
             }
-            $return['total'] = db('order')->count();  //总数据
             $return['rows'] = $result;
+
             return json($return);
         }
 
         return $this->fetch();
+    }
+
+    // 删除客服
+    public function delOrder()
+    {
+        if(request()->isAjax()){
+            $id = input('param.id/d');
+
+            try{
+                db('order')->where('id', $id)->delete();
+            }catch(\Exception $e){
+                return json(['code' => -1, 'data' => '', 'msg' => $e->getMessage()]);
+            }
+
+            return json(['code' => 1, 'data' => '', 'msg' => '成功删除订单']);
+        }
     }
 
     // 生成按钮
