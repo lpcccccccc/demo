@@ -26,6 +26,7 @@ class ComposerStaticInit0e5a20f54bf215fd957bc14489129d05
     );
 
     public static $classMap = array (
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
         'Ip2Region' => __DIR__ . '/..' . '/zoujingli/ip2region/Ip2Region.php',
     );
 

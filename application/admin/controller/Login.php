@@ -40,13 +40,9 @@ class Login extends Controller
             if(empty($userInfo)){
                 return json(['code' => -3, 'data' => '', 'msg' => '管理员不存在']);
             }
-
             if(md5($password . config('salt')) != $userInfo['password']){
                 return json(['code' => -4, 'data' => '', 'msg' => '密码错误']);
-            }
-
-            if(1 != $userInfo['status']){
-                return json(['code' => -5, 'data' => '', 'msg' => '您已被禁用']);
+//                return md5($password . config('salt')).'aaaa'.$userInfo['password'];
             }
 
             // 记录管理员状态
@@ -56,7 +52,7 @@ class Login extends Controller
             // 更新管理员状态
             $param = [
                 'last_login_ip' => request()->ip(),
-                'last_login_time' => time()
+                'updated_at' => date('Y-m-d H:i:s', time())
             ];
             db('admins')->where('id', $userInfo['id'])->update($param);
 
